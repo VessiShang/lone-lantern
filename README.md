@@ -47,8 +47,11 @@
 
 ## 下载与运行
 
-在 [Releases](../../releases) 页面下载最新的 `孤灯迷径-vX.Y.Z.zip`，解压后双击 `孤灯迷径.exe`。
+在 [Releases](../../releases) 页面下载最新的 `LoneLantern-vX.Y.Z.zip`，解压后双击 `孤灯迷径.exe`。
 免安装、免联网，首次启动会先解压 3~5 秒。
+
+> 这是无签名的自制程序，Windows SmartScreen 可能提示「已保护你的电脑」，
+> 点「更多信息 → 仍要运行」即可。
 
 ## 本地开发
 
