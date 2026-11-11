@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#05070d" />
+<title>孤灯迷径 · Lone Lantern</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="game"></canvas>
+
+  <!-- 游戏内 HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-row">
+      <div class="hud-left">
+        <span class="hud-chapter" id="hud-chapter">第一章</span>
+        <span class="hud-name" id="hud-name">浅梦</span>
+      </div>
+      <div class="hud-stars" id="hud-stars">
+        <i class="star" data-i="0">★</i><i class="star" data-i="1">★</i><i class="star" data-i="2">★</i>
+      </div>
+      <div class="hud-right">
+        <span class="hud-time" id="hud-time">00:00</span>
+        <button class="icon-btn" id="btn-mute" title="静音">♪</button>
+        <button class="icon-btn" id="btn-pause" title="暂停 (ESC)">❚❚</button>
+      </div>
+    </div>
+    <div class="hud-tip" id="hud-tip">WASD 移动 · 空格 交互 · ESC 暂停</div>
+  </div>
+
+  <!-- 标题 -->
+  <div class="screen" id="screen-title">
+    <div class="title-wrap">
+      <img class="logo" src="assets/icon.png" alt="孤灯迷径" draggable="false" />
+      <h1 class="game-title">孤灯迷径</h1>
+      <p class="game-sub">L O N E &nbsp; L A N T E R N</p>
+      <p class="tagline">提着一盏灯，走进黑暗的迷宫。</p>
+      <div class="btn-row">
+        <button class="btn primary" id="btn-start">开始游戏</button>
+        <button class="btn" id="btn-help">操作说明</button>
+      </div>
+      <p class="ver">全三章 · v1.0.2</p>
+    </div>
+  </div>
+
+  <!-- 章节选择 -->
+  <div class="screen" id="screen-select">
+    <h2 class="screen-title">选择章节</h2>
+    <p class="screen-sub">集齐三颗星辰，再找到出口，才是完美通关。</p>
+    <div class="cards" id="level-cards"></div>
+    <button class="btn ghost" id="btn-back-title">返回标题</button>
+  </div>
+
+  <!-- 说明 -->
+  <div class="screen" id="screen-help">
+    <h2 class="screen-title">操作说明</h2>
+    <div class="help-body">
+      <div class="help-item"><b>W A S D</b><span>上下左右行走</span></div>
+      <div class="help-item"><b>空格</b><span>开宝箱 / 交互</span></div>
+      <div class="help-item"><b>ESC</b><span>暂停 · 回退</span></div>
+      <p class="help-note">
+        灯只能照亮身边 <b>4 个身位</b>——越远越暗，<b>4 个身位以外伸手不见五指</b>。<br />
+        只有一条命：掉进坑洞、被暗箭射中，都会当场结束。<br />
+        每章藏着 <b>3 个宝箱</b>，各有一颗星辰，宝箱的光能<b>穿透墙和黑暗</b>远远看到。<br />
+        集齐 <b>3 颗星</b>，再找到出口，才算完美通关。
+      </p>
+    </div>
+    <button class="btn primary" id="btn-help-close">知道了</button>
+  </div>
+
+  <!-- 暂停 -->
+  <div class="screen dim" id="screen-pause">
+    <h2 class="screen-title">暂停</h2>
+    <div class="btn-col">
+      <button class="btn primary" id="btn-resume">继续</button>
+      <button class="btn" id="btn-restart-pause">重新开始</button>
+      <button class="btn" id="btn-quit">返回标题</button>
+    </div>
+  </div>
+
+  <!-- 结算 -->
+  <div class="screen dim" id="screen-result">
+    <h2 class="screen-title" id="result-title">…</h2>
+    <p class="screen-sub" id="result-sub"></p>
+    <div class="result-stars" id="result-stars"></div>
+    <div class="btn-col" id="result-btns"></div>
+  </div>
+</div>
+
+<script src="src/sfx-data.js"></script>
+<script src="src/util.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/input.js"></script>
+<script src="src/levels.js"></script>
+<script src="src/maze.js"></script>
+<script src="src/game.js"></script>
+<script src="src/ui.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

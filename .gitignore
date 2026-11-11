@@ -1,0 +1,22 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+dist/
+build/
+out/
+
+# 测试与调试产物
+selftest/
+*.log
+
+# 生成资源（由 tools/ 下的脚本产出，可随时重建，不必入库）
+assets/sfx/
+assets/icon-512.png
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

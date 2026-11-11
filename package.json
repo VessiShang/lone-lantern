@@ -1,0 +1,64 @@
+{
+  "name": "lone-lantern",
+  "productName": "孤灯迷径",
+  "version": "1.0.2",
+  "description": "孤灯迷径 — 提灯走黑暗迷宫",
+  "main": "electron/main.js",
+  "author": "Vessi Shang",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VessiShang/lone-lantern.git"
+  },
+  "homepage": "https://github.com/VessiShang/lone-lantern",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "electron .",
+    "icon": "node tools/gen-icon.js",
+    "sfx": "node tools/gen-sfx.js",
+    "assets": "node tools/gen-icon.js && node tools/gen-sfx.js",
+    "selftest": "electron . --selftest",
+    "dist": "electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "com.dsh.lonelantern",
+    "productName": "孤灯迷径",
+    "artifactName": "LoneLantern-${version}-portable.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "index.html",
+      "styles.css",
+      "src/**/*",
+      "assets/icon.png",
+      "assets/icon.ico",
+      "electron/main.js"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "LoneLantern-${version}-portable.${ext}",
+      "unpackDirName": "LoneLantern"
+    },
+    "compression": "maximum"
+  }
+}
