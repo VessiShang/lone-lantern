@@ -75,7 +75,7 @@ jobs:
           files: LoneLantern-*.zip
           generate_release_notes: true
           body: |
-            **下载**：下方的 `LoneLantern-${{ env.VERSION }}.zip` → 解压 → 双击 `孤灯迷径.exe`。
+            **下载**：下方的 `LoneLantern-v${{ env.VERSION }}.zip` → 解压 → 双击 `孤灯迷径.exe`。
             免安装、免联网，仅 Windows x64。
 
             > 这是无签名的自制程序，Windows SmartScreen 可能提示「已保护你的电脑」，
