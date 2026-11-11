@@ -1,7 +1,7 @@
 {
   "name": "lone-lantern",
   "productName": "孤灯迷径",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "孤灯迷径 — 提灯走黑暗迷宫",
   "main": "electron/main.js",
   "author": "Vessi Shang",

@@ -1,0 +1,91 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: 构建 Windows 免安装版
+    runs-on: windows-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 pnpm（固定与本地一致）
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.28.5
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 构建 portable exe
+        run: pnpm exec electron-builder --win portable --x64
+
+      - name: 打成发布包
+        shell: pwsh
+        run: |
+          $ver = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $exe = "dist/LoneLantern-$ver-portable.exe"
+          if (-not (Test-Path $exe)) { throw "构建产物不存在: $exe" }
+          Copy-Item $exe "孤灯迷径.exe"
+          Compress-Archive -Path "孤灯迷径.exe", "使用说明.txt" `
+            -DestinationPath "LoneLantern-v$ver.zip" -CompressionLevel Optimal
+          "VERSION=$ver" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Get-Item "LoneLantern-v$ver.zip" | Select-Object Name, Length
+
+      - name: 冒烟测试（真实运行打包后的 exe）
+        shell: pwsh
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP "smoke"
+          $env:LL_SELFTEST_DIR = $out
+          $p = Start-Process -FilePath ".\孤灯迷径.exe" -ArgumentList "--selftest" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "自测退出码 $($p.ExitCode)" }
+          Get-Content (Join-Path $out "log.txt")
+          if (-not (Test-Path (Join-Path $out "01-title.png"))) { throw "未生成截图，自测可能没真正跑起来" }
+          $shots = (Get-ChildItem $out -Filter *.png | Measure-Object).Count
+          if ($shots -lt 10) { throw "截图数量异常: $shots" }
+          "冒烟测试通过，截图 $shots 张"
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: LoneLantern-v${{ env.VERSION }}
+          path: LoneLantern-*.zip
+          retention-days: 30
+
+      - name: 发布 Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: 孤灯迷径 ${{ github.ref_name }}
+          files: LoneLantern-*.zip
+          generate_release_notes: true
+          body: |
+            **下载**：下方的 `LoneLantern-${{ env.VERSION }}.zip` → 解压 → 双击 `孤灯迷径.exe`。
+            免安装、免联网，仅 Windows x64。
+
+            > 这是无签名的自制程序，Windows SmartScreen 可能提示「已保护你的电脑」，
+            > 点「更多信息 → 仍要运行」即可。
+
+            ## 操作
+
+            `WASD` 移动 · `空格` 交互 · `ESC` 暂停。
+
+            ## 说明
+
+            本版本由 GitHub Actions 在 Windows 上自动构建，
+            并已通过随机走位压力测试与完整流程自测后才发布。

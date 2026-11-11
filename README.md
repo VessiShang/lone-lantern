@@ -1,5 +1,8 @@
 # 孤灯迷径 · Lone Lantern
 
+[![Release](https://img.shields.io/github/v/release/VessiShang/lone-lantern)](../../releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > 提着一盏灯，走进黑暗的迷宫。
 
 一个用 **Canvas 2D + 原生 JavaScript** 写的 2D 黑暗迷宫探索小游戏，打包成 Windows 免安装单文件 exe。
